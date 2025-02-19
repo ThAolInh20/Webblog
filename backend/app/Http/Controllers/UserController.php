@@ -32,15 +32,38 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'datebirth' => 'required',
+            'phone' => 'required',
+        ]);
+        $user = User::create($request->all());
+        return response()->json([
+            'data' => $user,
+            'success' => true
+        ],201);
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(string $user)
     {
-        //
+        $user = User::find($user);
+        if($user){
+            return response()->json([
+                'data' => $user,
+                'success' => true
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'User not found',
+                'success' => false
+            ],404);
+        }
     }
 
     /**
@@ -54,16 +77,49 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, string $id)
     {
-        //
+        $user =User::find($id);
+        $request->validate([
+            'name' => 'required',
+            'datebirth' => 'required',
+            'phone' => 'required',
+        ]);
+        if($user){
+            $user->update($request->except('email'));
+            return response()->json([
+                'data' => $user,
+                'success' => true
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'User not found',
+                'success' => false
+            ],404);
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(string $id)
     {
         //
+        $user = User::find($id);
+        if($user){
+            $user->delete();
+            return response()->json([
+                'message' => 'User deleted',
+                'success' => true
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'User not found',
+                'success' => false
+            ],404);
+        }
     }
 }
