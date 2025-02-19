@@ -1,0 +1,44 @@
+# Ignore node modules and dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Ignore Laravel vendor folder
+vendor
+composer.lock
+
+# Ignore environment files
+.env
+.env.example
+
+# Ignore log files and caches
+storage/logs
+storage/framework/cache
+storage/framework/views
+storage/framework/sessions
+
+
+# Ignore IDE and system files
+*.phpstorm.meta.php
+.idea
+.vscode
+*.DS_Store
+*.log
+*.swp
+*.swo
+*.bak
+
+# Ignore Docker-related files
+docker-compose.override.yml
+Dockerfile
+
+# Ignore tests and coverage
+tests
+phpunit.xml
+phpunit.xml.dist
+coverage
+
+# Ignore Laravel storage and runtime cache
+storage/debugbar
+public/hot
+public/storage
