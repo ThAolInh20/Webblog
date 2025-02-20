@@ -32,4 +32,3 @@ RUN chown -R www-data:www-data /var/www/html
 # Mở cổng cho ứng dụng
 EXPOSE 8000
 
-CMD ["php-fpm"]

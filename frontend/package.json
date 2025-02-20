@@ -11,6 +11,8 @@
     "axios": "^1.7.9",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
+    "vue-router": "^4.5.0",
+    "webpack-dev-server": "^4.15.2",
     "ziggy-js": "^2.5.1"
   },
   "devDependencies": {

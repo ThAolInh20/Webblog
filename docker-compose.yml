@@ -27,10 +27,14 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend:/app
+      - /app/node_modules  # Ngăn chặn lỗi khi dùng node_modules trong container
+    environment:
+      - CHOKIDAR_USEPOLLING=true # Cần thiết để Vue nhận diện thay đổi file
+      - WATCHPACK_POLLING=true # Cần thiết để Vue nhận diện thay đổi file
     networks:
       - webnet
     ports:
-      - "8080:8080"
+      - "8081:8081"
     command: ["npm", "run", "serve"]
 
   # Database: MySQL

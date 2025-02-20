@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Bước 7: Cấu hình container để chạy ứng dụng
-EXPOSE 8080
+EXPOSE 8081
 
-# Bước 8: Chạy ứng dụng Vue.js
-CMD ["npm", "run", "serve"]
+
+
