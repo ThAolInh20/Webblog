@@ -1,28 +1,18 @@
 <template>
   <div>
-      <nav>
-          <router-link to="/users">Danh sách Users</router-link> |
-          <router-link to="/users/add">Thêm User</router-link>
-      </nav>
+    <NavigateCustom />
       <router-view />
   </div>
 </template>
 
 <script>
-export default {};
+import NavigateCustom from './components/common/NavigateCustom.vue';
+
+export default {
+  components: {
+    NavigateCustom
+  }
+};
 </script>
 
-<style scoped>
-nav {
-  background: #333;
-  padding: 10px;
-}
-nav a {
-  color: white;
-  margin-right: 15px;
-  text-decoration: none;
-}
-nav a:hover {
-  text-decoration: underline;
-}
-</style>
+

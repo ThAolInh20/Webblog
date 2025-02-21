@@ -12,7 +12,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'data' => Category::all(),
+            'success' => true
+        ],200);
     }
 
     /**
@@ -28,38 +31,89 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        $category = Category::create($request->all());
+        return response()->json([
+            'data' => $category,
+            'success' => true
+        ],201);
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(string $id)
     {
         //
+        $category = Category::find($id);
+        if($category){
+            return response()->json([
+                'data' => $category,
+                'success' => true
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'Category not found',
+                'success' => false
+            ],404);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(string $id)
     {
         //
+        
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, string $id)
     {
-        //
+        $category = Category::find($id);
+        if($category){
+            $category->update($request->all());
+            return response()->json([
+                'data' => $category,
+                'success' => true
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'Category not found',
+                'success' => false
+            ],404);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(string $category)
     {
-        //
+        $category = Category::find($category);
+        if($category){
+            $category->delete();
+            return response()->json([
+                'data' => $category,
+                'success' => true
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'Category not found',
+                'success' => false
+            ],404);
+        }
     }
 }

@@ -36,4 +36,5 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class, 'Posts_Tags', 'Postsid', 'Tagsid');
     }
+   
 }

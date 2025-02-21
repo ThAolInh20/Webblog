@@ -32,17 +32,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'datebirth' => 'required',
-            'phone' => 'required',
-        ]);
-        $user = User::create($request->all());
-        return response()->json([
-            'data' => $user,
-            'success' => true
-        ],201);
+        try{
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'datebirth' => 'required',
+                'phone' => 'required',
+            ]);
+            $user = User::create($request->all());
+            return response()->json([
+                'data' => $user,
+                'success' => true
+            ],201);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error creating user: '.$e->getMessage(),
+                'success' => false
+            ],500);
+        }
+        
 
     }
 

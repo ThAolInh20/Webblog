@@ -2,40 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PostTag;
 use Illuminate\Http\Request;
-use app\Models\Post;
-use app\Models\Tag;
-class PostTagController extends Controller
+use App\Models\Post;
+use app\Models\Category;
+
+class SearchController extends Controller
 {
-    public function getPostsByTagId($tag_id)
+    //
+    public function getCommentByPostId($post_id)
     {
-        $postTag = Post::with('posts')->find($tag_id);
-        if($postTag) {
+        $post = Post::find($post_id);
+        if($post){
             return response()->json([
-                'data' => $postTag->posts,
-                'success' => true
-            ],200);
-        }
-        else{
-            return response()->json([
-                'message' => 'Tag not found',
-                'success' => false
-            ],404);
-        }
-    }
-    public function getTagsByPostId($post_id)
-    {
-        $postTag = Tag::with('tags')->find($post_id);
-        if($postTag) {
-            return response()->json([
-                'data' => $postTag->tags,
+                'data' => $post->comments,
                 'success' => true
             ],200);
         }
         else{
             return response()->json([
                 'message' => 'Post not found',
+                'success' => false
+            ],404);
+        }
+        
+    }
+    public function getPostByCategoryId($category_id)
+    {
+        $category = Category::find($category_id);
+        if($category) {
+            return response()->json([
+                'data' => $category->posts,
+                'success' => true
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'Category not found',
                 'success' => false
             ],404);
         }

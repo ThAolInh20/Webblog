@@ -14,17 +14,21 @@
             <label>Số điện thoại:</label>
             <input type="text" v-model="user.phone" required />
 
-            <button type="submit">Thêm</button>
+            <CustomButton type="primary">Thêm User</CustomButton>
+            
         </form>
 
         <p v-if="message">{{ message }}</p>
     </div>
 </template>
 
-<script>
+<script>    
 import axios from 'axios';
-
+import CustomButton from '../common/CustomButton.vue';
 export default {
+    components: {
+        CustomButton
+    },
     data() {
         return {
             user: {
@@ -38,14 +42,18 @@ export default {
     },
     methods: {
         async submitUser() {
+            console.log("0")
             try {
+                console.log("1")
                 await axios.post('http://localhost:8000/api/users', this.user);
+                console.log("2")
                 this.message = "Thêm user thành công!";
                 this.resetForm();
             } catch (error) {
+                console.log("3")
                 console.error("Lỗi khi thêm user:", error);
                 this.message = "Thêm user thất bại!";
-            }
+            }  
         },
         resetForm() {
             this.user = { email: '', name: '', datebirth: '', phone: '' };

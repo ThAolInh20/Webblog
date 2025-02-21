@@ -44,17 +44,16 @@
             CustomButton
         },
         mounted(){
-            this.featchUsers();
+            this.fetchUsers();
         },
         methods:{
-            async featchUsers() {
+            async fetchUsers() {
                  try {
                     const response = await axios.get('http://localhost:8000/api/users');
                     this.users = response.data.data;
                     
                 } catch (error) {
                     console.error("Lỗi khi lấy danh sách người dùng:", error);
-                    
                 }
             },
             addUser(){
@@ -64,21 +63,31 @@
                 this.$router.push(`/users/edit/${userId}`);
             },
             async deleteUser(userId) {
-                try {
-                    const confirmDelete = confirm("Bạn có chắc chắn muốn xóa người dùng này?");
-                    if (!confirmDelete) return;
-
-                    const response = await axios.delete(`http://localhost:8000/api/users/delete/${userId}`);
-                    
-                    if (response.status === 200 && response.data.message === "User deleted successfully") {
-                        this.featchUsers(); // Load lại danh sách sau khi xóa
+                console.log("0")
+                const isDelete = confirm("Bạn có chắc chắn muốn xóa user này?");
+                if (isDelete) {
+                    let oldUsers = this.users;
+                    try {
+                        await axios.delete(`http://localhost:8000/api/users/${userId}`);
+                        console.log("1")
+                        // Nếu server xóa thành công, fetch lại danh sách
+                        this.users = this.users.filter(user => user.id !== userId);
+                        console.log("2")
                         console.log("Xóa thành công");
-                    } else {
-                        console.error("Xóa thất bại:", response.data);
+                    } catch (error) {
+                        if (error.response && error.response.status === 404) {
+                            console.log("3")
+                            console.warn("User đã bị xóa trước đó, chỉ cập nhật UI.");
+                        
+    
+                        } else {
+                            console.error("Lỗi khi xóa user:", error.response?.data || error.message);
+                            this.users = oldUsers;
+                        }
                     }
-                } catch (error) {
-                    console.error("Lỗi khi xóa user:", error);
                 }
+
+                
             }
             
         }
